@@ -1,0 +1,21 @@
+
+sequenceDiagram
+	participant Scripts
+    participant k8sAPI
+    participant VM01
+    participant VM02
+    Scripts->>k8sAPI: kubectl cordon VM01-VM02
+    k8sAPI->>VM01: cordon VM01
+    k8sAPI->>VM02: cordon VM02
+    Scripts->>k8sAPI: Scale down to 2 replicas
+
+    Scripts->>+k8sAPI: Request a list of pods on VM01
+    k8sAPI-->>-Scripts: Here you are
+
+    Scripts->>k8sAPI: Evict all pods on VM01
+    loop Healthcheck
+        Scripts->>k8sAPI: until all pods are Ready
+    
+    end
+    Scripts->>k8sAPI: kubectl cordon VM02
+    k8sAPI->>VM02: cordon VM02
