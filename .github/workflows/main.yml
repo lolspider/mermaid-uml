@@ -1,16 +1,18 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
-
+    name: my-first-job
     runs-on: ubuntu-latest
-    
     steps:
     - uses: actions/checkout@v1
     - name: Run a one-line script
-      run: echo Hello, world!
+      run: echo $(pwd)
     - name: Run a multi-line script
       run: |
         echo Add other actions to build,
